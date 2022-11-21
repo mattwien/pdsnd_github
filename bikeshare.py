@@ -18,7 +18,7 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+    # get user input for city (chicago, new york city, washington).
     while True:
         city = input(
             "Would you like to see data for Chicago, New York City, or Washington?:\n> ").lower()
@@ -28,6 +28,7 @@ def get_filters():
 
     month = 'all'
     day = 'all'
+    # get user input for date filter option (month, day, all)
     while True:
         filter_type = input(
             "Would you like to filter the data by month, day, or not at all?\n> ").lower()
@@ -192,8 +193,11 @@ def user_stats(df):
 
 def print_raw_data(df):
     """Displays the raw data of the filtered bikeshare data, by 5 rows each"""
+    # main loop to display 5 rows of the bikeshare data each
     for index in range(0, len(df), 5):
         print(df[index:index+5])
+        # get user input if more data should be displayed with "yes" as default,
+        # so the user can flip throguh the content by simply hitting enter
         if input('Would you like to see the next 5 lines of raw data? Enter yes or no.\n> ').lower() == 'no':
             break
 
@@ -208,10 +212,11 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-
+        # get user input if raw data should be shown (yes or no with default: no)
         if input('\nWould you like to see the raw data? Enter yes or no.\n> ').lower() == 'yes':
             print_raw_data(df)
 
+        # get user input if the program should restart or stop (default: no)
         restart = input('\nWould you like to restart? Enter yes or no.\n>')
         if restart.lower() != 'yes':
             break
