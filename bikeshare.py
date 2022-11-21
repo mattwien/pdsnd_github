@@ -113,9 +113,7 @@ def time_stats(df):
     # display the most common start hour
     print('Most common start hour:  {}.'.format(df['hour'].mode()[0]))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
-
+    print_timer_message(start_time)
 
 def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
@@ -138,8 +136,7 @@ def station_stats(df):
     print("\n Most commonly used Start - End Station Combination: {} -> {}, with {} combinations."
           .format(start_end_stations.index[0][0], start_end_stations.index[0][0], start_end_stations[0]))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print_timer_message(start_time)
 
 
 def trip_duration_stats(df):
@@ -156,8 +153,7 @@ def trip_duration_stats(df):
     print("Average trip travel time: {:7.2f} minutes.".format(
         df['Trip Duration'].mean()/60))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print_timer_message(start_time)
 
 
 def user_stats(df):
@@ -186,9 +182,7 @@ def user_stats(df):
         print("Most common year of birth: {}".format(
             int(df['Birth Year'].mode()[0])))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
-
+    print_timer_message(start_time)
 
 def print_raw_data(df):
     """Displays the raw data of the filtered bikeshare data, by 5 rows each"""
@@ -196,6 +190,18 @@ def print_raw_data(df):
         print(df[index:index+5])
         if input('Would you like to see the next 5 lines of raw data? Enter yes or no.\n> ').lower() == 'no':
             break
+
+def print_timer_message(start_time):
+    """
+    Displays the time the respective analysis took in seconds
+
+    Args:
+        start_time: time the function was started.
+    """
+
+    print("\nThis took {:.4f} seconds.".format(time.time() - start_time))
+    print('-'*40)
+
 
 
 def main():
