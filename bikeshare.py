@@ -5,7 +5,9 @@ import numpy as np
 CITY_DATA = {'chicago': 'chicago.csv',
              'new york city': 'new_york_city.csv',
              'washington': 'washington.csv'}
-months = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
+MONTHS = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
+DAYS = ['all', 'monday', 'tuesday', 'wednesday','thursday', 'firday',
+        'saturday', 'sunday']
 
 
 def get_filters():
@@ -42,18 +44,16 @@ def get_filters():
         while True:
             month = input(
                 "Which month - January, February, March, April, May, or June?:\n> ").lower()
-            if month in months:
+            if month in MONTHS:
                 break
             print("Invalid month entered, please type (january - june) or type all\n")
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     if filter_type == 'day':
-        days = ['all', 'monday', 'tuesday', 'wednesday',
-                'thursday', 'firday', 'saturday', 'sunday']
         while True:
             day = input(
                 "Which day - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?:\n> ").lower()
-            if day in days:
+            if day in DAYS:
                 break
             print(
                 "Invalid weekday entered, please type a weekday (monday - sunday) or type all\n")
@@ -88,7 +88,7 @@ def load_data(city, month, day):
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
-        month = months.index(month)
+        month = MONTHS.index(month)
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
     # filter by day of week if applicable
@@ -112,7 +112,7 @@ def time_stats(df):
 
     # display the most common month
     print('Most common month:       {}.'.format(
-        months[df['month'].mode()[0]].title()))
+        MONTHS[df['month'].mode()[0]].title()))
 
     # display the most common day of week
     print('Most common day of week: {}.'.format(df['day_of_week'].mode()[0]))
@@ -120,9 +120,7 @@ def time_stats(df):
     # display the most common start hour
     print('Most common start hour:  {}.'.format(df['hour'].mode()[0]))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
-
+    print_timer_message(start_time)
 
 def station_stats(df):
     """
@@ -150,8 +148,7 @@ def station_stats(df):
     print("\n Most commonly used Start - End Station Combination: {} -> {}, with {} combinations."
           .format(start_end_stations.index[0][0], start_end_stations.index[0][0], start_end_stations[0]))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print_timer_message(start_time)
 
 
 def trip_duration_stats(df):
@@ -173,8 +170,7 @@ def trip_duration_stats(df):
     print("Average trip travel time: {:7.2f} minutes.".format(
         df['Trip Duration'].mean()/60))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
+    print_timer_message(start_time)
 
 
 def user_stats(df):
@@ -208,9 +204,7 @@ def user_stats(df):
         print("Most common year of birth: {}".format(
             int(df['Birth Year'].mode()[0])))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-'*40)
-
+    print_timer_message(start_time)
 
 def print_raw_data(df):
     """Displays the raw data of the filtered bikeshare data, by 5 rows each
@@ -226,6 +220,18 @@ def print_raw_data(df):
         # so the user can flip throguh the content by simply hitting enter
         if input('Would you like to see the next 5 lines of raw data? Enter yes or no.\n> ').lower() == 'no':
             break
+
+def print_timer_message(start_time):
+    """
+    Displays the time the respective analysis took in seconds
+
+    Args:
+        start_time: time the function was started.
+    """
+
+    print("\nThis took {:.4f} seconds.".format(time.time() - start_time))
+    print('-'*40)
+
 
 
 def main():
